@@ -1,6 +1,8 @@
 package com.github.luishdezortega.challenge.controller;
 
 import com.github.luishdezortega.challenge.dto.RequestHistoryResponseDTO;
+import com.github.luishdezortega.challenge.exception.BadRequestException;
+import com.github.luishdezortega.challenge.exception.InternalServiceException;
 import com.github.luishdezortega.challenge.service.ICallLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,10 +29,9 @@ public class CallLogController {
             summary = "Obtener historial de llamadas",
             description = "Recupera un historial paginado de llamadas registradas en la base de datos",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Historial recuperado exitosamente",
-                            content = @Content(schema = @Schema(implementation = RequestHistoryResponseDTO.class))),
-                    @ApiResponse(responseCode = "400", description = "Parámetros inválidos"),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+                    @ApiResponse(responseCode = "200", description = "Historial recuperado exitosamente", content = @Content(schema = @Schema(implementation = RequestHistoryResponseDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Parámetros inválidos", content = @Content(schema = @Schema(implementation = BadRequestException.class))),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(schema = @Schema(implementation = InternalServiceException.class)))
             }
     )
     public ResponseEntity<RequestHistoryResponseDTO> getCallLogs(
@@ -39,7 +40,5 @@ public class CallLogController {
             @RequestParam(defaultValue = "timestamp,asc") String sort) {
         return ResponseEntity.ok(callLogService.getCallLogs(page, size, sort));
     }
-
-    // TODO Mapear un nuevo objeto para la paginación, manejo de excepciones y pruebas unitarias en general
 
 }
