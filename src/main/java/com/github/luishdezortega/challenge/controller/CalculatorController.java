@@ -3,6 +3,8 @@ package com.github.luishdezortega.challenge.controller;
 
 import com.github.luishdezortega.challenge.dto.CalculatorRequestDTO;
 import com.github.luishdezortega.challenge.dto.CalculatorRespondDTO;
+import com.github.luishdezortega.challenge.exception.BadRequestException;
+import com.github.luishdezortega.challenge.exception.InternalServiceException;
 import com.github.luishdezortega.challenge.service.ICalculatorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,10 +31,9 @@ public class CalculatorController {
             summary = "Calcula la suma con un porcentaje adicional",
             description = "Recibe dos números, los suma y aplica un porcentaje dinámico",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Cálculo exitoso",
-                            content = @Content(schema = @Schema(implementation = CalculatorRespondDTO.class))),
-                    @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+                    @ApiResponse(responseCode = "200", description = "Cálculo exitoso", content = @Content(schema = @Schema(implementation = CalculatorRespondDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content(schema = @Schema(implementation = BadRequestException.class))),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(schema = @Schema(implementation = InternalServiceException.class)))
             }
     )
     public ResponseEntity<CalculatorRespondDTO> calculator(@RequestBody CalculatorRequestDTO request) {
