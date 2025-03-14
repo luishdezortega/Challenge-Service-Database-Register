@@ -19,6 +19,7 @@ public class PercentageService implements IPercentageService {
 
     private final Cache<String, Double> cache;
 
+
     public PercentageService(
             @Value("${cache.percentage.expire-after-minutes}") long expireAfterMinutes,
             @Value("${cache.percentage.max-size}") int maxSize
@@ -62,10 +63,7 @@ public class PercentageService implements IPercentageService {
      * @return the percentage value retrieved from the external service
      * @throws PercentageUnavailableException if the external service is unavailable
      */
-    private double fetchPercentageFromExternalService() {
-        if (Math.random() > 0.5) {
-            throw new PercentageUnavailableException("External service failed!");
-        }
+    public double fetchPercentageFromExternalService() {
         return DEFAULT_PERCENTAGE;
     }
 }
