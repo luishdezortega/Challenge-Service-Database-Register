@@ -16,6 +16,7 @@ services:
 
   app:
     build: .
+    image: luis231995/challenge-application:latest
     container_name: spring_app
     restart: always
     depends_on:
